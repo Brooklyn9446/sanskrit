@@ -3,6 +3,7 @@ pipeline {
     environment {
         IMAGE_NAME = 'sanskrit-bot'
         APP_DIR    = 'sanskrit-bot'
+        PATH       = "C:\\Users\\niran\\AppData\\Local\\Programs\\Python\\Python313\\python.exe"
     }
     stages {
         stage('Checkout') {
