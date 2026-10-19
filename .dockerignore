@@ -1,5 +1,31 @@
+# Git
 .git/
+.gitignore
+
+# Python virtual environments & bytecode
 **/.venv/
-**/.env
+**/venv/
 **/__pycache__/
+**/*.pyc
+**/*.pyo
+**/*.pyd
+
+# Environment secrets
+**/.env
+**/.env.*
+!**/.env.example
+
+# Test & coverage reports
 **/.pytest_cache/
+**/test-results.xml
+**/.coverage
+**/htmlcov/
+
+# CI & Docker files
+Dockerfile*
+Jenkinsfile*
+.dockerignore
+
+# IDE configs
+.vscode/
+.idea/

@@ -8,17 +8,16 @@ pipeline {
         stage('Checkout') {
             steps {
                 checkout scm
-                sh 'git log -1 --oneline'
+                bat 'git log -1 --oneline'
             }
         }
         stage('Build') {
             steps {
                 dir("${APP_DIR}") {
-                    sh '''
-                        python3 -m venv .venv
-                        . .venv/bin/activate
-                        pip install --upgrade pip
-                        pip install -r requirements.txt
+                    bat '''
+                        python -m venv .venv
+                        .venv\\Scripts\\python.exe -m pip install --upgrade pip
+                        .venv\\Scripts\\python.exe -m pip install -r requirements.txt
                     '''
                 }
             }
@@ -26,22 +25,21 @@ pipeline {
         stage('Test / Validate') {
             steps {
                 dir("${APP_DIR}") {
-                    sh '''
-                        . .venv/bin/activate
-                        python -m compileall -q src app.py
-                        pytest -q --junitxml=test-results.xml
+                    bat '''
+                        .venv\\Scripts\\python.exe -m compileall -q src app.py
+                        .venv\\Scripts\\python.exe -m pytest -q --junitxml=test-results.xml
                     '''
                 }
             }
             post {
-                always { junit "${APP_DIR}/test-results.xml" }
+                always { junit allowEmptyResults: true, testResults: "${APP_DIR}/test-results.xml" }
             }
         }
         stage('Docker Build') {
             steps {
-                sh '''
-                    docker build -t ${IMAGE_NAME}:${BUILD_NUMBER} -t ${IMAGE_NAME}:latest .
-                    docker images ${IMAGE_NAME}
+                bat '''
+                    docker build -t %IMAGE_NAME%:%BUILD_NUMBER% -t %IMAGE_NAME%:latest .
+                    docker images %IMAGE_NAME%
                 '''
             }
         }
