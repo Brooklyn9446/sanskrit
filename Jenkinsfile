@@ -3,7 +3,7 @@ pipeline {
     environment {
         IMAGE_NAME = 'sanskrit-bot'
         APP_DIR    = 'sanskrit-bot'
-        PATH       = "C:\\Users\\niran\\AppData\\Local\\Programs\\Python\\Python313\\python.exe"
+        PYTHON     = 'C:\\Users\\niran\\AppData\\Local\\Programs\\Python\\Python313\\python.exe'
     }
     stages {
         stage('Checkout') {
@@ -16,7 +16,7 @@ pipeline {
             steps {
                 dir("${APP_DIR}") {
                     bat '''
-                        python -m venv .venv
+                        "%PYTHON%" -m venv .venv
                         .venv\\Scripts\\python.exe -m pip install --upgrade pip
                         .venv\\Scripts\\python.exe -m pip install -r requirements.txt
                     '''
